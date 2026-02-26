@@ -7,9 +7,11 @@ dotenv.config();
 
 // ── Validate required environment variables ──────────────────────────
 const REQUIRED_ENV = ['MONGO_URI', 'JWT_SECRET'];
-for (const key of REQUIRED_ENV) {
-  if (!process.env[key]) {
-    console.error(`FATAL: Missing required environment variable: ${key}`);
+const missingVars = REQUIRED_ENV.filter(key => !process.env[key]);
+if (missingVars.length > 0) {
+  console.error(`FATAL: Missing required environment variables: ${missingVars.join(', ')}`);
+  // In serverless, process.exit kills the function — log and let requests fail gracefully
+  if (!process.env.VERCEL) {
     process.exit(1);
   }
 }
@@ -52,6 +54,11 @@ app.use('/api/activity', require('./routes/activityRoutes'));
 app.use('/api/shares', require('./routes/shareRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/availability', require('./routes/availabilityRoutes'));
+
+// Root route (for browser / uptime checks)
+app.get('/', (req, res) => {
+  res.status(200).json({ service: 'CalManage API', status: 'running' });
+});
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
