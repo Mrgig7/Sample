@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useCalendar } from '../../context/CalendarContext';
 import { useAuth } from '../../context/AuthContext';
+import API_BASE from '../../utils/apiBase';
 import { X, Calendar, Clock, AlignLeft, Sun, Video, Link2, Users, Search, Loader2, UserCheck, UserX, Sparkles, ChevronRight, Trash2 } from 'lucide-react';
 import GlassPanel from '../UI/GlassPanel';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -250,7 +251,7 @@ const EventModal = ({ isOpen, onClose, selectedDate, initialStartTime, initialEn
     if (query.length < 2) { setSearchResults([]); return; }
     setSearchLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/availability/users/search?q=${encodeURIComponent(query)}`, {
+      const res = await fetch(`${API_BASE}/api/availability/users/search?q=${encodeURIComponent(query)}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {

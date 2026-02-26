@@ -145,7 +145,8 @@ const forgotPassword = async (req, res) => {
     user.resetPasswordExpires = new Date(Date.now() + 15 * 60 * 1000);
     await user.save();
 
-    const resetLink = `http://localhost:5173/login?resetToken=${encodeURIComponent(rawToken)}&email=${encodeURIComponent(normalizedEmail)}`;
+    const clientOrigin = process.env.CLIENT_ORIGIN || 'https://calmanage.vercel.app';
+    const resetLink = `${clientOrigin}/login?resetToken=${encodeURIComponent(rawToken)}&email=${encodeURIComponent(normalizedEmail)}`;
     const html = `
       <!DOCTYPE html>
       <html>

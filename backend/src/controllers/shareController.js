@@ -80,7 +80,8 @@ const shareCalendar = async (req, res) => {
     });
 
     // Send Email
-    const signupLink = `http://localhost:5173/signup?email=${encodeURIComponent(email)}`;
+    const clientOrigin = process.env.CLIENT_ORIGIN || 'https://calmanage.vercel.app';
+    const signupLink = `${clientOrigin}/signup?email=${encodeURIComponent(email)}`;
     const roleText = role === 'editor' ? 'edit and manage' : 'view';
     const emailHtml = `
       <!DOCTYPE html>

@@ -10,7 +10,7 @@ const sendEmail = require('../utils/emailService');
 const getEventStartEmailHtml = (event, calendarName) => {
   const startText = event.start ? new Date(event.start).toLocaleString() : '';
   const endText = event.end ? new Date(event.end).toLocaleString() : '';
-  const viewLink = `http://localhost:5173/`;
+  const viewLink = process.env.CLIENT_ORIGIN || 'https://calmanage.vercel.app';
 
   return `
     <!DOCTYPE html>
@@ -115,7 +115,7 @@ const getEventStartEmailHtml = (event, calendarName) => {
 const getEventEndEmailHtml = (event, calendarName) => {
   const startText = event.start ? new Date(event.start).toLocaleString() : '';
   const endText = event.end ? new Date(event.end).toLocaleString() : '';
-  const viewLink = `http://localhost:5173/`;
+  const viewLink = process.env.CLIENT_ORIGIN || 'https://calmanage.vercel.app';
 
   return `
     <!DOCTYPE html>

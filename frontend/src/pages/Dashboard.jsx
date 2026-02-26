@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCalendar } from '../context/CalendarContext';
+import API_BASE from '../utils/apiBase';
 import {
   format,
   isSameDay,
@@ -141,9 +142,9 @@ const Dashboard = () => {
     const fetchData = async () => {
       if (!token) return;
       try {
-        const invitesRes = await fetch('http://localhost:5000/api/shares/invites', { headers: { Authorization: `Bearer ${token}` } });
+        const invitesRes = await fetch(`${API_BASE}/api/shares/invites`, { headers: { Authorization: `Bearer ${token}` } });
         if (invitesRes.ok) setInvites(await invitesRes.json());
-        const activityRes = await fetch('http://localhost:5000/api/activity', { headers: { Authorization: `Bearer ${token}` } });
+        const activityRes = await fetch(`${API_BASE}/api/activity`, { headers: { Authorization: `Bearer ${token}` } });
         if (activityRes.ok) setActivities(await activityRes.json());
       } catch (error) { console.error(error); }
     };
@@ -289,7 +290,7 @@ const Dashboard = () => {
 
   const respondToInvite = async (id, status) => {
     try {
-      await fetch(`http://localhost:5000/api/shares/invites/${id}`, {
+      await fetch(`${API_BASE}/api/shares/invites/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ status })

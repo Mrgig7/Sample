@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { X, Check, Mail, Shield, Send, Loader2, Users, Trash2, UserX, Clock } from 'lucide-react';
 import { useCalendar } from '../../context/CalendarContext';
 import { useAuth } from '../../context/AuthContext';
+import API_BASE from '../../utils/apiBase';
 import GlassPanel from '../UI/GlassPanel';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -26,7 +27,7 @@ const ShareCalendarModal = ({ isOpen, onClose, calendarId, calendarName }) => {
 
     setLoadingShares(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/shares/calendar/${calendarId}`, {
+      const res = await fetch(`${API_BASE}/api/shares/calendar/${calendarId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -52,7 +53,7 @@ const ShareCalendarModal = ({ isOpen, onClose, calendarId, calendarName }) => {
   const handleRemoveShare = async (shareId) => {
     setRemovingShareId(shareId);
     try {
-      const res = await fetch(`http://localhost:5000/api/shares/${shareId}`, {
+      const res = await fetch(`${API_BASE}/api/shares/${shareId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });

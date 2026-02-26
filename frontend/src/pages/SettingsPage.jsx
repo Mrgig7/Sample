@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { User, Mail, Bell, Shield, Loader2, Check, X } from 'lucide-react';
+import API_BASE from '../utils/apiBase';
 import GlassPanel from '../components/UI/GlassPanel';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -16,7 +17,7 @@ const SettingsPage = () => {
     const fetchPreferences = async () => {
       if (!token) return;
       try {
-        const res = await fetch('http://localhost:5000/api/users/preferences', {
+        const res = await fetch(`${API_BASE}/api/users/preferences`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.ok) {
@@ -37,7 +38,7 @@ const SettingsPage = () => {
     setStatus({ type: '', message: '' });
 
     try {
-      const res = await fetch('http://localhost:5000/api/users/preferences', {
+      const res = await fetch(`${API_BASE}/api/users/preferences`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

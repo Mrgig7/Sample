@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import API_BASE from '../utils/apiBase';
 import { Mail, Lock, Calendar, ArrowRight } from 'lucide-react';
 
 const Login = () => {
@@ -36,7 +37,7 @@ const Login = () => {
     setSuccessMessage('');
     setIsLoading(true);
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +64,7 @@ const Login = () => {
     setResetStatus('loading');
     setResetMessage('');
     try {
-      const res = await fetch('/api/auth/forgot-password', {
+      const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: resetEmail }),
@@ -75,15 +76,12 @@ const Login = () => {
       } else {
         setResetStatus('error');
         setResetMessage(
-          data.message ||
-            (res.status === 502
-              ? 'Cannot reach the server. Start the backend on port 5000 and try again.'
-              : 'Failed to send reset link.')
+          data.message || 'Failed to send reset link.'
         );
       }
     } catch {
       setResetStatus('error');
-      setResetMessage('Cannot reach the server. Start the backend on port 5000 and try again.');
+      setResetMessage('Cannot reach the server. Please try again later.');
     }
   };
 
@@ -91,7 +89,7 @@ const Login = () => {
     setResetStatus('loading');
     setResetMessage('');
     try {
-      const res = await fetch('/api/auth/reset-password', {
+      const res = await fetch(`${API_BASE}/api/auth/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: resetToken, password: resetPassword }),
@@ -107,15 +105,12 @@ const Login = () => {
       } else {
         setResetStatus('error');
         setResetMessage(
-          data.message ||
-            (res.status === 502
-              ? 'Cannot reach the server. Start the backend on port 5000 and try again.'
-              : 'Failed to reset password.')
+          data.message || 'Failed to reset password.'
         );
       }
     } catch {
       setResetStatus('error');
-      setResetMessage('Cannot reach the server. Start the backend on port 5000 and try again.');
+      setResetMessage('Cannot reach the server. Please try again later.');
     }
   };
 

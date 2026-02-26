@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useContext, useCallback, useRef, useMemo } from 'react';
 import { useAuth } from './AuthContext';
 import { compareAsc } from 'date-fns';
+import API_BASE from '../utils/apiBase';
 
 const CalendarContext = createContext();
 
@@ -301,7 +302,7 @@ export const CalendarProvider = ({ children }) => {
 
   const fetchCalendars = useCallback(async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/calendars', {
+      const res = await fetch(`${API_BASE}/api/calendars`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -327,7 +328,7 @@ export const CalendarProvider = ({ children }) => {
 
   const addCalendar = async (calendarData) => {
     try {
-      const res = await fetch('http://localhost:5000/api/calendars', {
+      const res = await fetch(`${API_BASE}/api/calendars`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -357,7 +358,7 @@ export const CalendarProvider = ({ children }) => {
 
   const updateCalendar = async (calendarId, updates) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/calendars/${calendarId}`, {
+      const res = await fetch(`${API_BASE}/api/calendars/${calendarId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -377,7 +378,7 @@ export const CalendarProvider = ({ children }) => {
 
   const fetchEvents = async (calendarId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/calendars/${calendarId}/events`, {
+      const res = await fetch(`${API_BASE}/api/calendars/${calendarId}/events`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -391,7 +392,7 @@ export const CalendarProvider = ({ children }) => {
 
   const fetchCalendarEvents = useCallback(async (calendarId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/calendars/${calendarId}/events`, {
+      const res = await fetch(`${API_BASE}/api/calendars/${calendarId}/events`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -407,7 +408,7 @@ export const CalendarProvider = ({ children }) => {
 
   const addEvent = async (calendarId, eventData) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/calendars/${calendarId}/events`, {
+      const res = await fetch(`${API_BASE}/api/calendars/${calendarId}/events`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -446,7 +447,7 @@ export const CalendarProvider = ({ children }) => {
 
   const deleteCalendar = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/calendars/${id}`, {
+      const res = await fetch(`${API_BASE}/api/calendars/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -459,7 +460,7 @@ export const CalendarProvider = ({ children }) => {
 
   const updateEvent = async (calendarId, eventId, eventData) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/events/${eventId}`, {
+      const res = await fetch(`${API_BASE}/api/events/${eventId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -485,7 +486,7 @@ export const CalendarProvider = ({ children }) => {
 
   const deleteEvent = async (calendarId, eventId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/events/${eventId}`, {
+      const res = await fetch(`${API_BASE}/api/events/${eventId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -508,7 +509,7 @@ export const CalendarProvider = ({ children }) => {
 
   const fetchSharedCalendars = useCallback(async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/shares', {
+      const res = await fetch(`${API_BASE}/api/shares`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -539,7 +540,7 @@ export const CalendarProvider = ({ children }) => {
   const fetchNotifications = useCallback(async () => {
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:5000/api/notifications', {
+      const res = await fetch(`${API_BASE}/api/notifications`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -554,7 +555,7 @@ export const CalendarProvider = ({ children }) => {
 
   const markAsRead = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/notifications/${id}/read`, {
+      const res = await fetch(`${API_BASE}/api/notifications/${id}/read`, {
         method: 'PATCH',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -567,7 +568,7 @@ export const CalendarProvider = ({ children }) => {
 
   const deleteNotification = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/notifications/${id}`, {
+      const res = await fetch(`${API_BASE}/api/notifications/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -581,7 +582,7 @@ export const CalendarProvider = ({ children }) => {
 
   const clearNotifications = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/notifications', {
+      const res = await fetch(`${API_BASE}/api/notifications`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -596,7 +597,7 @@ export const CalendarProvider = ({ children }) => {
   const fetchTasks = useCallback(async () => {
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:5000/api/tasks', {
+      const res = await fetch(`${API_BASE}/api/tasks`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -608,7 +609,7 @@ export const CalendarProvider = ({ children }) => {
 
   const addTask = async (text) => {
     try {
-      const res = await fetch('http://localhost:5000/api/tasks', {
+      const res = await fetch(`${API_BASE}/api/tasks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ text }),
@@ -625,7 +626,7 @@ export const CalendarProvider = ({ children }) => {
     // Optimistic
     setTasks(prev => prev.map(t => t._id === id ? { ...t, completed: !completed } : t));
     try {
-      await fetch(`http://localhost:5000/api/tasks/${id}`, {
+      await fetch(`${API_BASE}/api/tasks/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ completed: !completed }),
@@ -635,7 +636,7 @@ export const CalendarProvider = ({ children }) => {
 
   const deleteTask = async (id) => {
     try {
-      await fetch(`http://localhost:5000/api/tasks/${id}`, {
+      await fetch(`${API_BASE}/api/tasks/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -672,7 +673,7 @@ export const CalendarProvider = ({ children }) => {
 
   const shareCalendar = async (calendarId, email, role) => {
     try {
-      const res = await fetch('http://localhost:5000/api/shares', {
+      const res = await fetch(`${API_BASE}/api/shares`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -689,7 +690,7 @@ export const CalendarProvider = ({ children }) => {
 
   const removeShare = async (shareId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/shares/${shareId}`, {
+      const res = await fetch(`${API_BASE}/api/shares/${shareId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });

@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect, useContext, useCallback } from 'react';
+import API_BASE from '../utils/apiBase';
 
 const AuthContext = createContext();
 
@@ -15,7 +16,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = useCallback(async (authToken) => {
     try {
-      const res = await fetch('http://localhost:5000/api/auth/me', {
+      const res = await fetch(`${API_BASE}/api/auth/me`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -36,9 +37,6 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      // Verify token and get user data
-      // For now, we'll just assume token is valid or fetch user
-      // Ideally, call /api/auth/me
       fetchUser(token);
     } else {
       setLoading(false);
