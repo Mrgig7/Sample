@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import API_BASE from '../utils/apiBase';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import AuthLayout from '../components/AuthLayout';
 import { Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
@@ -23,7 +24,7 @@ const SignIn = () => {
     setError('');
     setIsLoading(true);
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

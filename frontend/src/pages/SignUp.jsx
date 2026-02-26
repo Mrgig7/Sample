@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import API_BASE from '../utils/apiBase';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import AuthLayout from '../components/AuthLayout';
 import { User, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
@@ -35,7 +36,7 @@ const SignUp = () => {
     setError('');
     setIsLoading(true);
     try {
-      const res = await fetch('/api/auth/register', {
+      const res = await fetch(`${API_BASE}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
